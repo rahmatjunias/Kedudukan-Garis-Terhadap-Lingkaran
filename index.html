@@ -1,0 +1,1644 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f4">
+  <title>Kedudukan Garis terhadap Lingkaran — Ruang Belajar</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f7f4;
+      --surface: #fff;
+      --ink: #1d2925;
+      --muted: #64716b;
+      --line: #e2e8e3;
+      --green: #2f705b;
+      --green-dark: #205542;
+      --green-pale: #e7f2eb;
+      --orange: #d78a4b;
+      --shadow: 0 18px 50px rgba(32, 54, 43, .07);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(29, 41, 37, .08);
+    }
+
+    .brand {
+      display: inline-flex;
+      gap: 11px;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: -.03em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--green);
+      color: white;
+      font-size: 19px;
+    }
+
+    .top-link {
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 52px;
+      padding: 66px 0 76px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 24px;
+      height: 2px;
+      background: var(--orange);
+      content: "";
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 650px;
+      margin-bottom: 20px;
+      font-size: clamp(38px, 5vw, 61px);
+      line-height: 1.08;
+      letter-spacing: -.055em;
+    }
+
+    .hero-copy {
+      max-width: 540px;
+      margin-bottom: 27px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 19px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+
+    .button:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .hero-art {
+      position: relative;
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #e8ece6;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(47, 112, 91, .08), transparent 49%),
+        linear-gradient(135deg, #fff, #f3f6f1);
+    }
+
+    .hero-art::before, .hero-art::after {
+      position: absolute;
+      border: 1px solid rgba(47, 112, 91, .09);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .hero-art::before { width: 290px; height: 290px; }
+    .hero-art::after { width: 220px; height: 220px; }
+    .hero-art svg { position: relative; z-index: 1; width: min(290px, 85%); }
+
+    .section { padding: 70px 0; }
+    .section-white { background: var(--surface); }
+
+    .section-heading {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-heading .eyebrow { justify-content: center; }
+
+    h2 {
+      margin-bottom: 12px;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.2;
+      letter-spacing: -.04em;
+    }
+
+    .section-heading p { margin-bottom: 0; color: var(--muted); }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .concept-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .concept-card .symbol {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 17px;
+      border-radius: 12px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .concept-card h3 { margin-bottom: 7px; font-size: 17px; }
+    .concept-card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .explorer-layout {
+      display: grid;
+      grid-template-columns: 1fr .8fr;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .diagram {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fbfcfa;
+    }
+
+    .diagram svg { width: 100%; height: auto; display: block; }
+
+    .controls h3 { margin-bottom: 8px; font-size: 22px; }
+    .controls > p { color: var(--muted); }
+
+    .range-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 28px 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    output { color: var(--green-dark); font-variant-numeric: tabular-nums; }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .range-scale {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .result {
+      margin-top: 24px;
+      padding: 18px 19px;
+      border: 1px solid #d5e8dc;
+      border-radius: 12px;
+      background: var(--green-pale);
+    }
+
+    .result strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green-dark);
+      font-size: 16px;
+    }
+
+    .result span { color: #53665b; font-size: 13px; }
+
+    .formula-layout {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      align-items: start;
+      gap: 38px;
+    }
+
+    .formula-copy p { color: var(--muted); }
+
+    .formula-box {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbfcfa;
+    }
+
+    .equation {
+      margin: 0 0 13px;
+      color: var(--green-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 3vw, 30px);
+      text-align: center;
+    }
+
+    .formula-box p { margin: 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+    .example {
+      margin-top: 17px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--orange);
+      border-radius: 0 8px 8px 0;
+      background: #fff8f1;
+      font-size: 14px;
+    }
+
+    .example strong { color: #76502f; }
+
+    .quiz-card {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: clamp(22px, 5vw, 38px);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-progress {
+      height: 5px;
+      margin-bottom: 25px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #e9eee9;
+    }
+
+    .quiz-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--green);
+      transition: width .3s;
+    }
+
+    .question-count { margin-bottom: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .quiz-question { margin-bottom: 18px; font-size: 20px; line-height: 1.4; }
+
+    .answers { display: grid; gap: 9px; }
+
+    .answer {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+
+    .answer:hover:not(:disabled) { border-color: var(--green); background: #f7faf7; }
+    .answer:disabled { cursor: default; }
+    .answer.correct { border-color: #80b99a; background: #eaf5ee; }
+    .answer.incorrect { border-color: #e4a393; background: #fff0ec; }
+
+    .quiz-feedback { min-height: 25px; margin: 13px 0 4px; font-size: 13px; }
+    .quiz-feedback.success { color: var(--green-dark); }
+    .quiz-feedback.error { color: #a64e39; }
+    .quiz-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .score { color: var(--muted); font-size: 13px; }
+    .button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .slide-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; align-items: start; }
+    .slide-nav { display: grid; gap: 7px; }
+    .slide-nav button {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--surface);
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .slide-nav button[aria-current="step"] { border-color: var(--green); background: var(--green-pale); color: var(--green-dark); font-weight: 750; }
+    .slide-frame { min-width: 0; padding: clamp(20px, 4vw, 34px); border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }
+    .slide-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
+    .slide-controls span { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .slide-controls div { display: flex; gap: 8px; }
+    .slide-controls .button { min-height: 38px; padding: 0 13px; font-size: 12px; }
+    .activity-slide[hidden] { display: none; }
+    .activity-slide h3 { margin-bottom: 8px; font-size: 21px; letter-spacing: -.025em; }
+    .activity-intro { margin-bottom: 20px; color: var(--muted); font-size: 14px; }
+    .activity-feedback { min-height: 25px; margin: 14px 0 0; font-size: 13px; }
+    .activity-feedback.good { color: var(--green-dark); }
+    .activity-feedback.bad { color: #a64e39; }
+    .activity-action { margin-top: 15px; }
+
+    .hotspot-graph { width: min(100%, 520px); margin: 0 auto; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfa; }
+    .hotspot-graph svg { display: block; width: 100%; }
+    .hotspot-target { cursor: pointer; outline: none; }
+    .hotspot-target:focus { stroke: #1d2925; stroke-width: 4; }
+
+    .ordering-list { display: grid; gap: 8px; padding: 0; list-style: none; }
+    .ordering-item { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: #fbfcfa; }
+    .ordering-item span { flex: 1; font-size: 13px; }
+    .order-buttons { display: flex; gap: 5px; }
+    .order-buttons button { width: 34px; min-height: 34px; border: 1px solid var(--line); border-radius: 7px; background: #fff; cursor: pointer; }
+
+    .choice-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .choice-button {
+      min-height: 40px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 8px;
+      background: #fff; color: var(--ink); font: inherit; font-size: 13px; cursor: pointer;
+    }
+    .choice-button:hover, .choice-button[aria-pressed="true"] { border-color: var(--green); background: var(--green-pale); color: var(--green-dark); }
+    .statement-card { padding: 15px; border: 1px solid var(--line); border-radius: 10px; }
+    .statement-card + .statement-card { margin-top: 11px; }
+    .statement-card p { margin-bottom: 8px; font-size: 14px; font-weight: 650; }
+    .statement-card label { display: inline-flex; gap: 7px; align-items: center; margin: 0 14px 7px 0; font-size: 12px; }
+
+    .bucket-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 18px 0; }
+    .bucket { min-height: 135px; padding: 12px; border: 1px dashed #9bb9a6; border-radius: 10px; background: #f7faf7; }
+    .bucket h4 { margin: 0 0 9px; color: var(--green-dark); font-size: 12px; }
+    .bucket p { margin: 0; color: var(--muted); font-size: 12px; }
+    .bucket-item { margin: 6px 0; padding: 7px 8px; border: 1px solid var(--line); border-radius: 7px; background: #fff; font-size: 11px; }
+    .category-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(170px, .7fr); gap: 12px; align-items: center; margin: 8px 0; font-size: 13px; }
+    .category-row select, .cloud-controls input, .crossword-answer {
+      width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font: inherit;
+    }
+
+    .matrix-wrap { overflow-x: auto; }
+    .matrix { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .matrix th, .matrix td { padding: 10px 7px; border-bottom: 1px solid var(--line); text-align: center; }
+    .matrix th:first-child, .matrix td:first-child { min-width: 210px; text-align: left; }
+    .matrix input { accent-color: var(--green); }
+
+    .scenario-box { padding: 18px; border-radius: 11px; background: #f5f8f5; }
+    .scenario-box p { margin-bottom: 10px; font-size: 14px; }
+    .chat-window { display: grid; gap: 12px; max-width: 560px; margin: 0 auto 15px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #f4f7f5; }
+    .chat-bubble { max-width: 88%; padding: 11px 13px; border-radius: 12px; background: #fff; font-size: 13px; }
+    .chat-bubble.student { justify-self: end; background: var(--green-pale); }
+
+    .memory-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .memory-card { min-height: 94px; padding: 12px; border: 1px solid #d5e0d7; border-radius: 11px; background: #f8faf8; color: var(--green-dark); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .memory-card.flipped { background: var(--green-pale); }
+    .memory-card.matched { border-color: #80b99a; background: #eaf5ee; cursor: default; }
+
+    .cloud-controls { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 8px; align-items: end; }
+    .cloud-controls label { display: grid; gap: 5px; color: var(--muted); font-size: 11px; font-weight: 700; }
+    .word-cloud { min-height: 130px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 15px; margin-top: 15px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfa; }
+    .cloud-word { color: var(--green-dark); font-weight: 750; line-height: 1.2; }
+    .setup-note { margin-top: 14px; padding: 12px 14px; border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; background: #fff8f1; color: #76502f; font-size: 12px; }
+    .setup-note code { overflow-wrap: anywhere; }
+
+    .crossword-scroll { overflow-x: auto; padding: 4px 0 12px; }
+    .crossword-grid { display: grid; width: max-content; gap: 2px; margin: 0 auto; }
+    .crossword-cell { position: relative; width: 32px; height: 32px; border: 1px solid #8da597; border-radius: 3px; background: #fff; text-align: center; text-transform: uppercase; }
+    .crossword-cell.block { border-color: transparent; background: transparent; }
+    .crossword-cell input { width: 100%; height: 100%; padding: 0; border: 0; outline-color: var(--green); background: transparent; color: var(--ink); font: inherit; font-weight: 750; text-align: center; text-transform: uppercase; }
+    .crossword-cell input.correct { background: #eaf5ee; }
+    .crossword-cell input.incorrect { background: #fff0ec; }
+    .crossword-clues { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 15px; }
+    .crossword-clues h4 { margin-bottom: 8px; font-size: 13px; }
+    .crossword-clues ol { margin: 0; padding-left: 22px; color: var(--muted); font-size: 12px; }
+    .crossword-clues li { margin: 5px 0; cursor: pointer; }
+    .crossword-clues li:hover { color: var(--green-dark); }
+
+    footer {
+      padding: 25px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; gap: 30px; padding: 48px 0 55px; }
+      .hero-art { min-height: 240px; }
+      .hero-art::before { width: 240px; height: 240px; }
+      .hero-art::after { width: 180px; height: 180px; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .explorer-layout, .formula-layout { grid-template-columns: 1fr; gap: 27px; }
+      .slide-layout { grid-template-columns: 1fr; }
+      .slide-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bucket-grid { grid-template-columns: 1fr; }
+      .memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cloud-controls { grid-template-columns: 1fr; }
+      .crossword-clues { grid-template-columns: 1fr; }
+      .section { padding: 54px 0; }
+    }
+
+    @media (max-width: 420px) {
+      .shell { width: min(100% - 32px, 1120px); }
+      .topbar { height: 64px; }
+      .top-link { font-size: 12px; }
+      .quiz-footer { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell topbar">
+    <a class="brand" href="#" aria-label="Ruang Belajar, beranda">
+      <span class="brand-mark" aria-hidden="true">∠</span>
+      <span>ruang belajar</span>
+    </a>
+    <a class="top-link" href="#aktivitas">Aktivitas interaktif <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section class="shell hero">
+      <div>
+        <div class="eyebrow">Matematika · Kelas 12</div>
+        <h1>Kedudukan Garis terhadap Lingkaran</h1>
+        <p class="hero-copy">Satu garis bisa tidak menyentuh, menyentuh, atau memotong lingkaran. Pahami perbedaannya lewat visualisasi dan latihan singkat.</p>
+        <a class="button" href="#materi">Mulai belajar <span aria-hidden="true">&nbsp;↓</span></a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 300 230" fill="none">
+          <path d="M37 190H267M52 205V28" stroke="#D8E1D9" stroke-width="1.5" stroke-dasharray="4 6"/>
+          <circle cx="158" cy="112" r="67" fill="#EAF3EC" stroke="#2F705B" stroke-width="2.5"/>
+          <path d="M50 145L263 78" stroke="#D78A4B" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="103" cy="128" r="5" fill="#D78A4B"/>
+          <circle cx="220" cy="91" r="5" fill="#D78A4B"/>
+          <circle cx="158" cy="112" r="4" fill="#2F705B"/>
+          <path d="M158 112L207 66" stroke="#2F705B" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="164" y="106" fill="#205542" font-size="12" font-family="sans-serif">O</text>
+          <text x="186" y="78" fill="#205542" font-size="12" font-family="sans-serif">r</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section section-white" id="materi">
+      <div class="shell">
+        <div class="section-heading">
+          <div class="eyebrow">01 · Konsep dasar</div>
+          <h2>Tiga kemungkinan, satu kunci</h2>
+          <p>Bayangkan jarak tegak lurus dari pusat lingkaran ke garis. Bandingkan jarak itu dengan jari-jari.</p>
+        </div>
+        <div class="concept-grid">
+          <article class="concept-card">
+            <div class="symbol" aria-hidden="true">0</div>
+            <h3>Garis di luar lingkaran</h3>
+            <p>Jarak pusat ke garis lebih besar daripada jari-jari. Garis tidak memiliki titik persekutuan dengan lingkaran.</p>
+          </article>
+          <article class="concept-card">
+            <div class="symbol" aria-hidden="true">1</div>
+            <h3>Garis menyinggung</h3>
+            <p>Jarak pusat ke garis sama dengan jari-jari. Garis dan lingkaran memiliki tepat satu titik persekutuan.</p>
+          </article>
+          <article class="concept-card">
+            <div class="symbol" aria-hidden="true">2</div>
+            <h3>Garis memotong</h3>
+            <p>Jarak pusat ke garis lebih kecil daripada jari-jari. Ada dua titik persekutuan; jika melalui pusat, tali busurnya adalah diameter.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading">
+          <div class="eyebrow">02 · Eksplorasi</div>
+          <h2>Geser garisnya</h2>
+          <p>Ubah jarak garis dari pusat lingkaran dan amati jumlah titik potongnya.</p>
+        </div>
+        <div class="explorer-layout">
+          <div class="diagram">
+            <svg id="diagram" viewBox="0 0 360 280" role="img" aria-labelledby="diagram-title diagram-desc">
+              <title id="diagram-title">Visualisasi kedudukan garis terhadap lingkaran</title>
+              <desc id="diagram-desc">Lingkaran berpusat di O dan garis yang dapat digeser menggunakan penggeser.</desc>
+              <path d="M28 140H332M160 24V256" stroke="#DCE4DD" stroke-width="1" stroke-dasharray="4 5"/>
+              <circle cx="160" cy="140" r="78" fill="#EAF3EC" stroke="#2F705B" stroke-width="2.5"/>
+              <line id="moving-line" x1="160" y1="30" x2="160" y2="250" stroke="#D78A4B" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="160" cy="140" r="4" fill="#205542"/>
+              <text x="169" y="135" fill="#205542" font-size="13" font-family="sans-serif">O</text>
+              <circle id="point-a" cx="160" cy="62" r="5" fill="#D78A4B"/>
+              <circle id="point-b" cx="160" cy="218" r="5" fill="#D78A4B"/>
+              <line id="distance-line" x1="160" y1="140" x2="160" y2="140" stroke="#205542" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <text id="distance-label" x="170" y="157" fill="#205542" font-size="12" font-family="sans-serif">d</text>
+            </svg>
+          </div>
+          <div class="controls">
+            <h3>Jarak pusat ke garis</h3>
+            <p>Jari-jari lingkaran tetap <strong>r = 5 satuan</strong>. Geser garis untuk melihat perubahan kedudukannya.</p>
+            <label class="range-label" for="distance">
+              <span>Jarak <em>d</em></span>
+              <output id="distance-value" for="distance">3 satuan</output>
+            </label>
+            <input id="distance" type="range" min="0" max="8" step="0.1" value="3">
+            <div class="range-scale" aria-hidden="true"><span>0</span><span>5 (r)</span><span>8</span></div>
+            <div class="result" aria-live="polite">
+              <strong id="result-title">Garis memotong lingkaran</strong>
+              <span id="result-description">d &lt; r: terdapat dua titik persekutuan.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white">
+      <div class="shell formula-layout">
+        <div class="formula-copy">
+          <div class="eyebrow">03 · Cara analitis</div>
+          <h2>Gunakan rumus jarak titik ke garis</h2>
+          <p>Untuk lingkaran berpusat di <em>O(p, q)</em> dengan jari-jari <em>r</em>, dan garis <em>ax + by + c = 0</em>, hitung jarak tegak lurus dari pusat ke garis.</p>
+          <p>Setelah itu, bandingkan hasilnya dengan <em>r</em>. Cara ini berlaku meskipun garisnya miring.</p>
+        </div>
+        <div>
+          <div class="formula-box">
+            <div class="equation">d = |ap + bq + c| / √(a² + b²)</div>
+            <p>d = jarak pusat ke garis · (p, q) = pusat lingkaran · r = jari-jari</p>
+          </div>
+          <div class="example">
+            <strong>Contoh cepat.</strong> Pusat lingkaran O(0, 0), r = 5, dan garis 3x + 4y − 25 = 0. Jaraknya d = 25/5 = 5, sehingga garis menyinggung lingkaran.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="aktivitas">
+      <div class="shell">
+        <div class="section-heading">
+          <div class="eyebrow">04 · Studio interaktif</div>
+          <h2>Belajar dengan berbagai cara</h2>
+          <p>Gunakan tombol slide untuk mencoba visual, penalaran, simulasi, permainan, dan teka-teki berdasarkan materi serta lembar kuis.</p>
+        </div>
+        <div class="slide-layout">
+          <nav class="slide-nav" aria-label="Pilih aktivitas">
+            <button type="button" data-slide-nav="0" aria-current="step">01 · Hotspot</button>
+            <button type="button" data-slide-nav="1">02 · Urutkan langkah</button>
+            <button type="button" data-slide-nav="2">03 · Slider parameter</button>
+            <button type="button" data-slide-nav="3">04 · Yakin atau ragu?</button>
+            <button type="button" data-slide-nav="4">05 · Kategorisasi</button>
+            <button type="button" data-slide-nav="5">06 · Matriks</button>
+            <button type="button" data-slide-nav="6">07 · Skenario bercabang</button>
+            <button type="button" data-slide-nav="7">08 · Simulasi chat</button>
+            <button type="button" data-slide-nav="8">09 · Kartu memori</button>
+            <button type="button" data-slide-nav="9">10 · Word cloud kelas</button>
+            <button type="button" data-slide-nav="10">11 · Teka-teki silang</button>
+          </nav>
+
+          <div class="slide-frame">
+            <div class="slide-controls">
+              <span id="slide-indicator">Aktivitas 1 dari 11</span>
+              <div>
+                <button class="button" id="slide-prev" type="button" disabled>Sebelumnya</button>
+                <button class="button" id="slide-next" type="button">Berikutnya</button>
+              </div>
+            </div>
+
+            <article class="activity-slide" data-slide="0" aria-labelledby="hotspot-title">
+              <h3 id="hotspot-title">Hotspot: temukan titik singgung</h3>
+              <p class="activity-intro">Lingkaran berpusat di O. Ketuk titik persekutuan garis dan lingkaran yang menunjukkan garis singgung.</p>
+              <div class="hotspot-graph">
+                <svg viewBox="0 0 400 240" role="img" aria-labelledby="hotspot-svg-title">
+                  <title id="hotspot-svg-title">Grafik garis singgung horizontal pada lingkaran</title>
+                  <path d="M36 125H364M200 25V220" stroke="#dce4dd" stroke-dasharray="4 5"/>
+                  <circle cx="200" cy="125" r="70" fill="#eaf3ec" stroke="#2f705b" stroke-width="2.5"/>
+                  <line x1="86" y1="55" x2="314" y2="55" stroke="#d78a4b" stroke-width="3"/>
+                  <text x="209" y="130" fill="#205542" font-size="13">O</text>
+                  <circle class="hotspot-target" data-correct="false" cx="151" cy="75" r="10" fill="#fff" stroke="#82968a" stroke-width="2" tabindex="0" role="button" aria-label="Titik A"/>
+                  <circle class="hotspot-target" data-correct="true" cx="200" cy="55" r="10" fill="#fff" stroke="#d78a4b" stroke-width="3" tabindex="0" role="button" aria-label="Titik B, kandidat titik singgung"/>
+                  <circle class="hotspot-target" data-correct="false" cx="252" cy="78" r="10" fill="#fff" stroke="#82968a" stroke-width="2" tabindex="0" role="button" aria-label="Titik C"/>
+                  <text x="136" y="61" fill="#53665b" font-size="12">A</text>
+                  <text x="194" y="36" fill="#53665b" font-size="12">B</text>
+                  <text x="257" y="66" fill="#53665b" font-size="12">C</text>
+                </svg>
+              </div>
+              <p class="activity-feedback" id="hotspot-feedback" aria-live="polite"></p>
+            </article>
+
+            <article class="activity-slide" data-slide="1" aria-labelledby="ordering-title" hidden>
+              <h3 id="ordering-title">Urutkan langkah penyelesaian</h3>
+              <p class="activity-intro">Untuk garis y = x − 1 dan lingkaran x² + y² = 5, susun langkah untuk menemukan titik potong. Gunakan tombol panah agar mudah di ponsel.</p>
+              <ol class="ordering-list" id="ordering-list"></ol>
+              <button class="button activity-action" id="check-order" type="button">Periksa urutan</button>
+              <p class="activity-feedback" id="ordering-feedback" aria-live="polite"></p>
+            </article>
+
+            <article class="activity-slide" data-slide="2" aria-labelledby="parameter-title" hidden>
+              <h3 id="parameter-title">Slider parameter k</h3>
+              <p class="activity-intro">Pada lingkaran x² + y² = 25, geser k untuk menguji garis y = x + k. Batas singgung terjadi ketika |k| = 5√2.</p>
+              <label class="range-label" for="parameter-slider">
+                <span>Nilai k</span>
+                <output id="parameter-value" for="parameter-slider">0</output>
+              </label>
+              <input id="parameter-slider" type="range" min="-8" max="8" step="any" value="0">
+              <div class="range-scale" aria-hidden="true"><span>−8</span><span>−5√2</span><span>0</span><span>5√2</span><span>8</span></div>
+              <div class="choice-row">
+                <button class="choice-button" type="button" data-set-k="0">k = 0</button>
+                <button class="choice-button" type="button" data-set-k="5sqrt2">k = 5√2</button>
+                <button class="choice-button" type="button" data-set-k="7.5">k = 7,5</button>
+              </div>
+              <div class="result" aria-live="polite">
+                <strong id="parameter-result">Garis memotong lingkaran</strong>
+                <span id="parameter-explanation">|k| &lt; 5√2, sehingga ada dua titik potong.</span>
+              </div>
+            </article>
+
+            <article class="activity-slide" data-slide="3" aria-labelledby="confidence-title" hidden>
+              <h3 id="confidence-title">Benar atau salah, seberapa yakin?</h3>
+              <p class="activity-intro">Jawab tiap pernyataan dan pilih keyakinanmu. Jawaban benar bernilai 2 poin jika yakin dan 1 poin jika masih ragu.</p>
+              <div id="confidence-content"></div>
+              <p class="score" id="confidence-score">Skor: 0 poin</p>
+              <p class="activity-feedback" id="confidence-feedback" aria-live="polite"></p>
+            </article>
+
+            <article class="activity-slide" data-slide="4" aria-labelledby="bucket-title" hidden>
+              <h3 id="bucket-title">Kelompokkan kondisi</h3>
+              <p class="activity-intro">Masukkan tiap kondisi ke kategori kedudukan garis yang tepat.</p>
+              <div class="category-items" id="category-items"></div>
+              <div class="bucket-grid" aria-label="Wadah kategori">
+                <div class="bucket"><h4>Garis memotong</h4><div id="bucket-memotong"><p>Belum ada kondisi.</p></div></div>
+                <div class="bucket"><h4>Garis menyinggung</h4><div id="bucket-menyinggung"><p>Belum ada kondisi.</p></div></div>
+                <div class="bucket"><h4>Garis di luar</h4><div id="bucket-luar"><p>Belum ada kondisi.</p></div></div>
+              </div>
+              <button class="button activity-action" id="check-categories" type="button">Periksa kategori</button>
+              <p class="activity-feedback" id="category-feedback" aria-live="polite"></p>
+            </article>
+
+            <article class="activity-slide" data-slide="5" aria-labelledby="matrix-title" hidden>
+              <h3 id="matrix-title">Matriks pemahaman</h3>
+              <p class="activity-intro">Pilih status yang sesuai untuk setiap pernyataan.</p>
+              <div class="matrix-wrap">
+                <table class="matrix">
+                  <thead><tr><th>Pernyataan</th><th>Memotong</th><th>Menyinggung</th><th>Di luar</th></tr></thead>
+                  <tbody id="matrix-body"></tbody>
+                </table>
+              </div>
+              <button class="button activity-action" id="check-matrix" type="button">Periksa matriks</button>
+              <p class="activity-feedback" id="matrix-feedback" aria-live="polite"></p>
+            </article>
+
+            <article class="activity-slide" data-slide="6" aria-labelledby="scenario-title" hidden>
+              <h3 id="scenario-title">Skenario: misi lintasan satelit</h3>
+              <p class="activity-intro">Kamu membantu tim observatorium menentukan apakah lintasan lurus akan menyentuh zona berbentuk lingkaran.</p>
+              <div class="scenario-box" id="scenario-box" aria-live="polite"></div>
+            </article>
+
+            <article class="activity-slide" data-slide="7" aria-labelledby="chat-title" hidden>
+              <h3 id="chat-title">Simulasi chat: bantu teman belajar</h3>
+              <p class="activity-intro">Pilih respons yang membantu teman memahami hubungan diskriminan dan titik potong.</p>
+              <div class="chat-window" id="chat-window" aria-live="polite"></div>
+              <div class="choice-row" id="chat-choices"></div>
+              <p class="activity-feedback" id="chat-feedback"></p>
+            </article>
+
+            <article class="activity-slide" data-slide="8" aria-labelledby="memory-title" hidden>
+              <h3 id="memory-title">Kartu memori: cocokkan pasangan</h3>
+              <p class="activity-intro">Balik dua kartu untuk mencocokkan simbol diskriminan dengan maknanya.</p>
+              <div class="memory-grid" id="memory-grid"></div>
+              <p class="activity-feedback" id="memory-feedback" aria-live="polite">Pasangan ditemukan: 0 dari 3.</p>
+              <button class="choice-button" id="reset-memory" type="button">Acak ulang kartu</button>
+            </article>
+
+            <article class="activity-slide" data-slide="9" aria-labelledby="cloud-title" hidden>
+              <h3 id="cloud-title">Word cloud kelas</h3>
+              <p class="activity-intro">Sebutkan satu kata kunci yang paling kamu ingat dari materi ini. Jawaban dibagikan dengan peserta lain di ruang yang sama.</p>
+              <div class="cloud-controls">
+                <label>Kode ruang<input id="cloud-room" value="kelas12" maxlength="24" autocomplete="off"></label>
+                <label>Satu kata atau frasa<input id="cloud-answer" maxlength="40" placeholder="contoh: diskriminan"></label>
+                <button class="button" id="cloud-submit" type="button">Kirim</button>
+              </div>
+              <div class="choice-row">
+                <button class="choice-button" id="cloud-refresh" type="button">Muat ulang word cloud</button>
+                <span class="score" id="cloud-status" role="status">Mode demo lokal.</span>
+              </div>
+              <div class="word-cloud" id="word-cloud" aria-label="Word cloud jawaban"></div>
+              <div class="setup-note">
+                <strong>Untuk berbagi lintas perangkat:</strong> buat tabel Supabase memakai SQL pada file pendamping, lalu isi <code>SUPABASE_URL</code> dan <code>SUPABASE_ANON_KEY</code> di bagian konfigurasi script. Mode demo lokal hanya menyimpan jawaban di browser ini. Word cloud bersifat publik; kode ruang hanya mengelompokkan jawaban, bukan password. Jangan masukkan nama lengkap atau data pribadi.
+              </div>
+            </article>
+
+            <article class="activity-slide" data-slide="10" aria-labelledby="crossword-title" hidden>
+              <h3 id="crossword-title">Teka-teki silang geometri</h3>
+              <p class="activity-intro">Isi kotak dengan huruf. Pilih petunjuk untuk memindahkan kursor ke awal jawabannya.</p>
+              <div class="crossword-scroll"><div class="crossword-grid" id="crossword-grid" aria-label="Kotak teka-teki silang"></div></div>
+              <div class="crossword-clues">
+                <div><h4>Mendatar</h4><ol id="crossword-across"></ol></div>
+                <div><h4>Menurun</h4><ol id="crossword-down"></ol></div>
+              </div>
+              <button class="button activity-action" id="check-crossword" type="button">Periksa jawaban</button>
+              <p class="activity-feedback" id="crossword-feedback" aria-live="polite"></p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="latihan">
+      <div class="shell">
+        <div class="section-heading">
+          <div class="eyebrow">05 · Cek pemahaman</div>
+          <h2>Saatnya mencoba</h2>
+          <p>Pilih jawaban yang paling tepat. Kamu akan mendapat umpan balik langsung.</p>
+        </div>
+        <div class="quiz-card">
+          <div class="quiz-progress" aria-hidden="true"><span id="progress"></span></div>
+          <div id="quiz-content" aria-live="polite"></div>
+          <div class="quiz-footer">
+            <span class="score" id="score">Skor: 0 / 3</span>
+            <button class="button" id="next-question" type="button" disabled>Berikutnya</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">Ruang Belajar · Matematika Tingkat Lanjut · SMA Kelas 12</div>
+  </footer>
+
+  <script>
+    const distanceInput = document.querySelector("#distance");
+    const distanceValue = document.querySelector("#distance-value");
+    const movingLine = document.querySelector("#moving-line");
+    const pointA = document.querySelector("#point-a");
+    const pointB = document.querySelector("#point-b");
+    const distanceLine = document.querySelector("#distance-line");
+    const distanceLabel = document.querySelector("#distance-label");
+    const resultTitle = document.querySelector("#result-title");
+    const resultDescription = document.querySelector("#result-description");
+    const radius = 5;
+    const scale = 15.6;
+    const centerX = 160;
+    const centerY = 140;
+
+    function updateDiagram() {
+      const distance = Number(distanceInput.value);
+      const x = centerX + distance * scale;
+      movingLine.setAttribute("x1", x);
+      movingLine.setAttribute("x2", x);
+      distanceLine.setAttribute("x2", x);
+      distanceLabel.setAttribute("x", Math.min(x + 7, 326));
+      distanceLabel.setAttribute("y", centerY + 17);
+      distanceValue.value = `${distance.toFixed(1).replace(/\.0$/, "")} satuan`;
+
+      if (distance < radius) {
+        const offset = Math.sqrt(radius * radius - distance * distance) * scale;
+        pointA.setAttribute("cx", x);
+        pointA.setAttribute("cy", centerY - offset);
+        pointB.setAttribute("cx", x);
+        pointB.setAttribute("cy", centerY + offset);
+        pointA.style.display = "";
+        pointB.style.display = "";
+        if (distance === 0) {
+          resultTitle.textContent = "Garis melalui pusat (diameter)";
+          resultDescription.textContent = "d = 0 < r: terdapat dua titik persekutuan dan tali busurnya adalah diameter.";
+        } else {
+          resultTitle.textContent = "Garis memotong lingkaran";
+          resultDescription.textContent = "d < r: terdapat dua titik persekutuan.";
+        }
+      } else if (distance === radius) {
+        pointA.setAttribute("cx", x);
+        pointA.setAttribute("cy", centerY);
+        pointA.style.display = "";
+        pointB.style.display = "none";
+        resultTitle.textContent = "Garis menyinggung lingkaran";
+        resultDescription.textContent = "d = r: terdapat tepat satu titik persekutuan (titik singgung).";
+      } else {
+        pointA.style.display = "none";
+        pointB.style.display = "none";
+        resultTitle.textContent = "Garis di luar lingkaran";
+        resultDescription.textContent = "d > r: tidak ada titik persekutuan.";
+      }
+    }
+
+    distanceInput.addEventListener("input", updateDiagram);
+    updateDiagram();
+
+    const questions = [
+      {
+        text: "Sebuah lingkaran berjari-jari 7 memiliki jarak pusat ke garis sebesar 9. Bagaimana kedudukan garis tersebut?",
+        answers: ["Garis memotong lingkaran", "Garis menyinggung lingkaran", "Garis berada di luar lingkaran"],
+        correct: 2,
+        explanation: "Karena d = 9 lebih besar daripada r = 7, garis berada di luar lingkaran."
+      },
+      {
+        text: "Lingkaran berpusat di O(0, 0) dengan r = 5. Garisnya 3x + 4y − 25 = 0. Apa kedudukannya?",
+        answers: ["Garis menyinggung lingkaran", "Garis memotong lingkaran", "Garis berada di luar lingkaran"],
+        correct: 0,
+        explanation: "Jarak pusat ke garis adalah |−25|/√(3² + 4²) = 25/5 = 5, sama dengan jari-jari."
+      },
+      {
+        text: "Jika garis melalui pusat lingkaran dan memotongnya di dua titik, tali busur yang terbentuk disebut ...",
+        answers: ["Jari-jari", "Diameter", "Garis singgung"],
+        correct: 1,
+        explanation: "Tali busur yang melalui pusat lingkaran disebut diameter."
+      }
+    ];
+
+    const quizContent = document.querySelector("#quiz-content");
+    const nextButton = document.querySelector("#next-question");
+    const scoreDisplay = document.querySelector("#score");
+    const progress = document.querySelector("#progress");
+    let questionIndex = 0;
+    let score = 0;
+    let answered = false;
+    let completed = false;
+
+    function renderQuestion() {
+      answered = false;
+      nextButton.disabled = true;
+      nextButton.textContent = questionIndex === questions.length - 1 ? "Lihat hasil" : "Berikutnya";
+      progress.style.width = `${(questionIndex / questions.length) * 100}%`;
+      const question = questions[questionIndex];
+      quizContent.innerHTML = `
+        <div class="question-count">PERTANYAAN ${questionIndex + 1} DARI ${questions.length}</div>
+        <h3 class="quiz-question">${question.text}</h3>
+        <div class="answers">${question.answers.map((answer, index) =>
+          `<button class="answer" type="button" data-answer="${index}">${answer}</button>`
+        ).join("")}</div>
+        <p class="quiz-feedback" id="quiz-feedback"></p>
+      `;
+      quizContent.querySelectorAll(".answer").forEach((button) => {
+        button.addEventListener("click", () => selectAnswer(Number(button.dataset.answer)));
+      });
+    }
+
+    function selectAnswer(selected) {
+      if (answered) return;
+      answered = true;
+      const question = questions[questionIndex];
+      const buttons = quizContent.querySelectorAll(".answer");
+      buttons.forEach((button, index) => {
+        button.disabled = true;
+        if (index === question.correct) button.classList.add("correct");
+        else if (index === selected) button.classList.add("incorrect");
+      });
+      const feedback = document.querySelector("#quiz-feedback");
+      if (selected === question.correct) {
+        score++;
+        feedback.textContent = `Tepat! ${question.explanation}`;
+        feedback.classList.add("success");
+      } else {
+        feedback.textContent = `Belum tepat. ${question.explanation}`;
+        feedback.classList.add("error");
+      }
+      scoreDisplay.textContent = `Skor: ${score} / ${questions.length}`;
+      progress.style.width = `${((questionIndex + 1) / questions.length) * 100}%`;
+      nextButton.disabled = false;
+    }
+
+    nextButton.addEventListener("click", () => {
+      if (completed) {
+        questionIndex = 0;
+        score = 0;
+        completed = false;
+        scoreDisplay.textContent = `Skor: 0 / ${questions.length}`;
+        renderQuestion();
+        return;
+      }
+      if (!answered) return;
+      if (questionIndex < questions.length - 1) {
+        questionIndex++;
+        renderQuestion();
+      } else {
+        completed = true;
+        quizContent.innerHTML = `
+          <div class="question-count">LATIHAN SELESAI</div>
+          <h3 class="quiz-question">Skormu ${score} dari ${questions.length}.</h3>
+          <p>${score === questions.length ? "Hebat! Kamu sudah memahami konsepnya." : "Bagus sudah mencoba. Ulangi materi di atas, lalu cek pemahamanmu sekali lagi."}</p>
+        `;
+        progress.style.width = "100%";
+        nextButton.textContent = "Ulangi latihan";
+        nextButton.disabled = false;
+      }
+    });
+
+    renderQuestion();
+
+    const activitySlides = [...document.querySelectorAll(".activity-slide")];
+    const slideButtons = [...document.querySelectorAll("[data-slide-nav]")];
+    const slideIndicator = document.querySelector("#slide-indicator");
+    const previousSlideButton = document.querySelector("#slide-prev");
+    const nextSlideButton = document.querySelector("#slide-next");
+    let activeSlide = 0;
+
+    function showSlide(index) {
+      activeSlide = Math.max(0, Math.min(index, activitySlides.length - 1));
+      activitySlides.forEach((slide, i) => { slide.hidden = i !== activeSlide; });
+      slideButtons.forEach((button, i) => {
+        if (i === activeSlide) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
+      });
+      slideIndicator.textContent = `Aktivitas ${activeSlide + 1} dari ${activitySlides.length}`;
+      previousSlideButton.disabled = activeSlide === 0;
+      nextSlideButton.disabled = activeSlide === activitySlides.length - 1;
+    }
+
+    slideButtons.forEach((button) => button.addEventListener("click", () => showSlide(Number(button.dataset.slideNav))));
+    previousSlideButton.addEventListener("click", () => showSlide(activeSlide - 1));
+    nextSlideButton.addEventListener("click", () => showSlide(activeSlide + 1));
+    showSlide(0);
+
+    const hotspotFeedback = document.querySelector("#hotspot-feedback");
+    function chooseHotspot(target) {
+      if (target.dataset.correct === "true") {
+        hotspotFeedback.textContent = "Tepat! Garis menyinggung lingkaran di titik B; jari-jari ke titik singgung tegak lurus garis.";
+        hotspotFeedback.className = "activity-feedback good";
+      } else {
+        hotspotFeedback.textContent = "Belum tepat. Cari titik pada lingkaran yang juga terletak pada garis.";
+        hotspotFeedback.className = "activity-feedback bad";
+      }
+    }
+    document.querySelectorAll(".hotspot-target").forEach((target) => {
+      target.addEventListener("click", () => chooseHotspot(target));
+      target.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          chooseHotspot(target);
+        }
+      });
+    });
+
+    const orderingSteps = [
+      "Substitusikan y = x − 1: x² + (x − 1)² = 5.",
+      "Sederhanakan menjadi 2x² − 2x − 4 = 0.",
+      "Faktorkan: 2(x − 2)(x + 1) = 0.",
+      "Diperoleh x = 2 atau x = −1.",
+      "Hitung y = x − 1: titik potongnya (2, 1) dan (−1, −2)."
+    ];
+    let currentOrder = [3, 0, 4, 2, 1];
+    const orderingList = document.querySelector("#ordering-list");
+    const orderingFeedback = document.querySelector("#ordering-feedback");
+
+    function renderOrdering() {
+      orderingList.replaceChildren();
+      currentOrder.forEach((stepIndex, position) => {
+        const item = document.createElement("li");
+        item.className = "ordering-item";
+        const text = document.createElement("span");
+        text.textContent = orderingSteps[stepIndex];
+        const controls = document.createElement("div");
+        controls.className = "order-buttons";
+        [["↑", -1, "Naikkan"], ["↓", 1, "Turunkan"]].forEach(([label, direction, action]) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = label;
+          button.setAttribute("aria-label", `${action} langkah ${position + 1}`);
+          button.disabled = position + Number(direction) < 0 || position + Number(direction) >= currentOrder.length;
+          button.addEventListener("click", () => {
+            const nextPosition = position + Number(direction);
+            [currentOrder[position], currentOrder[nextPosition]] = [currentOrder[nextPosition], currentOrder[position]];
+            renderOrdering();
+          });
+          controls.append(button);
+        });
+        item.append(text, controls);
+        orderingList.append(item);
+      });
+    }
+    document.querySelector("#check-order").addEventListener("click", () => {
+      const correct = currentOrder.every((step, index) => step === index);
+      orderingFeedback.textContent = correct
+        ? "Urutannya benar. Langkah ini menghasilkan titik (2, 1) dan (−1, −2), seperti pada metode substitusi."
+        : "Belum tepat. Mulailah dengan substitusi, lalu sederhanakan dan faktorkan persamaan kuadrat.";
+      orderingFeedback.className = `activity-feedback ${correct ? "good" : "bad"}`;
+    });
+    renderOrdering();
+
+    const parameterSlider = document.querySelector("#parameter-slider");
+    const parameterValue = document.querySelector("#parameter-value");
+    const parameterResult = document.querySelector("#parameter-result");
+    const parameterExplanation = document.querySelector("#parameter-explanation");
+    const tangentParameter = Math.sqrt(50);
+    function updateParameter() {
+      const k = Number(parameterSlider.value);
+      const absK = Math.abs(k);
+      parameterValue.value = k.toFixed(2).replace(/\.?0+$/, "");
+      if (Math.abs(absK - tangentParameter) < 1e-7) {
+        parameterResult.textContent = "Garis menyinggung lingkaran";
+        parameterExplanation.textContent = "|k| = 5√2, sehingga tepat ada satu titik persekutuan.";
+      } else if (absK < tangentParameter) {
+        parameterResult.textContent = "Garis memotong lingkaran";
+        parameterExplanation.textContent = "|k| < 5√2, sehingga ada dua titik potong.";
+      } else {
+        parameterResult.textContent = "Garis berada di luar lingkaran";
+        parameterExplanation.textContent = "|k| > 5√2, sehingga tidak ada titik persekutuan.";
+      }
+    }
+    parameterSlider.addEventListener("input", updateParameter);
+    document.querySelectorAll("[data-set-k]").forEach((button) => {
+      button.addEventListener("click", () => {
+        parameterSlider.value = button.dataset.setK === "5sqrt2" ? String(tangentParameter) : button.dataset.setK;
+        updateParameter();
+      });
+    });
+    updateParameter();
+
+    const confidenceQuestions = [
+      {
+        text: "Jika diskriminan D < 0, garis memotong lingkaran di dua titik.",
+        correct: "salah",
+        reason: "D < 0 berarti tidak ada titik potong real; garis berada di luar lingkaran."
+      },
+      {
+        text: "Jika jarak pusat ke garis sama dengan jari-jari, garis menyinggung lingkaran.",
+        correct: "benar",
+        reason: "d = r menghasilkan tepat satu titik persekutuan, yaitu titik singgung."
+      }
+    ];
+    let confidencePoints = 0;
+    let confidenceAnswered = 0;
+    const confidenceContent = document.querySelector("#confidence-content");
+    const confidenceFeedback = document.querySelector("#confidence-feedback");
+
+    function renderConfidence() {
+      confidenceContent.replaceChildren();
+      confidenceQuestions.forEach((question, index) => {
+        const card = document.createElement("div");
+        card.className = "statement-card";
+        const text = document.createElement("p");
+        text.textContent = `${index + 1}. ${question.text}`;
+        const answerLabel = document.createElement("label");
+        answerLabel.textContent = "Jawaban";
+        const answerSelect = document.createElement("select");
+        answerSelect.setAttribute("aria-label", `Jawaban pernyataan ${index + 1}`);
+        answerSelect.innerHTML = '<option value="">Pilih benar/salah</option><option value="benar">Benar</option><option value="salah">Salah</option>';
+        const confidenceSelect = document.createElement("select");
+        confidenceSelect.setAttribute("aria-label", `Tingkat keyakinan pernyataan ${index + 1}`);
+        confidenceSelect.innerHTML = '<option value="">Pilih keyakinan</option><option value="yakin">Yakin (100%)</option><option value="ragu">Ragu-ragu</option>';
+        const answer = document.createElement("label");
+        answer.append(answerSelect);
+        const certainty = document.createElement("label");
+        certainty.append(confidenceSelect);
+        const check = document.createElement("button");
+        check.type = "button";
+        check.className = "choice-button";
+        check.textContent = "Kunci jawaban";
+        const result = document.createElement("p");
+        result.className = "activity-feedback";
+        result.setAttribute("aria-live", "polite");
+        check.addEventListener("click", () => {
+          if (!answerSelect.value || !confidenceSelect.value) {
+            result.textContent = "Pilih jawaban dan tingkat keyakinan dahulu.";
+            result.className = "activity-feedback bad";
+            return;
+          }
+          if (check.disabled) return;
+          check.disabled = true;
+          answerSelect.disabled = true;
+          confidenceSelect.disabled = true;
+          confidenceAnswered++;
+          const correct = answerSelect.value === question.correct;
+          if (correct) confidencePoints += confidenceSelect.value === "yakin" ? 2 : 1;
+          result.textContent = `${correct ? "Tepat!" : "Belum tepat."} ${question.reason}${correct ? ` +${confidenceSelect.value === "yakin" ? 2 : 1} poin.` : " 0 poin."}`;
+          result.className = `activity-feedback ${correct ? "good" : "bad"}`;
+          document.querySelector("#confidence-score").textContent = `Skor: ${confidencePoints} poin · ${confidenceAnswered} dari ${confidenceQuestions.length} dijawab`;
+          if (confidenceAnswered === confidenceQuestions.length) {
+            confidenceFeedback.textContent = "Selesai! Coba jelaskan alasan di balik tiap keputusan dengan kata-katamu sendiri.";
+            confidenceFeedback.className = "activity-feedback good";
+          }
+        });
+        card.append(text, answer, certainty, check, result);
+        confidenceContent.append(card);
+      });
+    }
+    renderConfidence();
+
+    const categories = [
+      { text: "Jarak d = 4, jari-jari r = 5", answer: "memotong" },
+      { text: "Diskriminan D = 0", answer: "menyinggung" },
+      { text: "Jarak d = 7, jari-jari r = 5", answer: "luar" },
+      { text: "Diskriminan D > 0", answer: "memotong" },
+      { text: "Jarak d = r", answer: "menyinggung" },
+      { text: "Diskriminan D < 0", answer: "luar" }
+    ];
+    const categoryItems = document.querySelector("#category-items");
+    categories.forEach((item, index) => {
+      const row = document.createElement("label");
+      row.className = "category-row";
+      const description = document.createElement("span");
+      description.textContent = item.text;
+      const select = document.createElement("select");
+      select.dataset.category = String(index);
+      select.setAttribute("aria-label", `Kategori untuk ${item.text}`);
+      select.innerHTML = '<option value="">Pilih kategori</option><option value="memotong">Garis memotong</option><option value="menyinggung">Garis menyinggung</option><option value="luar">Garis di luar</option>';
+      select.addEventListener("change", renderCategoryBuckets);
+      row.append(description, select);
+      categoryItems.append(row);
+    });
+
+    function renderCategoryBuckets() {
+      const buckets = {
+        memotong: document.querySelector("#bucket-memotong"),
+        menyinggung: document.querySelector("#bucket-menyinggung"),
+        luar: document.querySelector("#bucket-luar")
+      };
+      Object.values(buckets).forEach((bucket) => bucket.replaceChildren());
+      [...categoryItems.querySelectorAll("select")].forEach((select, index) => {
+        const bucket = buckets[select.value];
+        if (!bucket) return;
+        const item = document.createElement("div");
+        item.className = "bucket-item";
+        item.textContent = categories[index].text;
+        bucket.append(item);
+      });
+      Object.values(buckets).forEach((bucket) => {
+        if (!bucket.childElementCount) {
+          const empty = document.createElement("p");
+          empty.textContent = "Belum ada kondisi.";
+          bucket.append(empty);
+        }
+      });
+    }
+    renderCategoryBuckets();
+
+    document.querySelector("#check-categories").addEventListener("click", () => {
+      const selects = [...categoryItems.querySelectorAll("select")];
+      if (selects.some((select) => !select.value)) {
+        document.querySelector("#category-feedback").textContent = "Pilih kategori untuk semua kondisi.";
+        document.querySelector("#category-feedback").className = "activity-feedback bad";
+        return;
+      }
+      const correct = selects.filter((select, index) => select.value === categories[index].answer).length;
+      const feedback = document.querySelector("#category-feedback");
+      feedback.textContent = `${correct} dari ${categories.length} benar. Gunakan d dibanding r atau tanda diskriminan untuk memeriksa lagi.`;
+      feedback.className = `activity-feedback ${correct === categories.length ? "good" : "bad"}`;
+    });
+
+    const matrixItems = [
+      { text: "D > 0 setelah substitusi", answer: "memotong" },
+      { text: "D = 0 setelah substitusi", answer: "menyinggung" },
+      { text: "D < 0 setelah substitusi", answer: "luar" },
+      { text: "Pusat O(1, 2), r = 3; garis 3x + 4y − 26 = 0", answer: "menyinggung" }
+    ];
+    const matrixBody = document.querySelector("#matrix-body");
+    matrixItems.forEach((item, rowIndex) => {
+      const row = document.createElement("tr");
+      const statement = document.createElement("td");
+      statement.textContent = item.text;
+      row.append(statement);
+      ["memotong", "menyinggung", "luar"].forEach((value) => {
+        const cell = document.createElement("td");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `matrix-${rowIndex}`;
+        radio.value = value;
+        radio.setAttribute("aria-label", `${item.text}: ${value}`);
+        cell.append(radio);
+        row.append(cell);
+      });
+      matrixBody.append(row);
+    });
+    document.querySelector("#check-matrix").addEventListener("click", () => {
+      let answeredRows = 0;
+      let correctRows = 0;
+      matrixItems.forEach((item, rowIndex) => {
+        const selected = document.querySelector(`input[name="matrix-${rowIndex}"]:checked`);
+        if (selected) {
+          answeredRows++;
+          if (selected.value === item.answer) correctRows++;
+        }
+      });
+      const feedback = document.querySelector("#matrix-feedback");
+      if (answeredRows < matrixItems.length) {
+        feedback.textContent = `Lengkapi semua baris dahulu (${answeredRows} dari ${matrixItems.length} terisi).`;
+        feedback.className = "activity-feedback bad";
+      } else {
+        feedback.textContent = `${correctRows} dari ${matrixItems.length} baris benar. Untuk baris terakhir, jaraknya |3 + 8 − 26|/5 = 3, sama dengan r.`;
+        feedback.className = `activity-feedback ${correctRows === matrixItems.length ? "good" : "bad"}`;
+      }
+    });
+
+    const scenarioBox = document.querySelector("#scenario-box");
+    const scenarioNodes = {
+      start: {
+        prompt: "Lintasan tim adalah 3x + 4y − 26 = 0. Zona lingkaran berpusat di O(1, 2) dengan r = 3. Langkah terbaik untuk memeriksa kedudukannya?",
+        options: [
+          { text: "Hitung jarak pusat ke garis dengan rumus |ap + bq + c|/√(a²+b²).", next: "compare" },
+          { text: "Bandingkan angka 26 dengan jari-jari 3.", next: "hint" }
+        ]
+      },
+      hint: {
+        prompt: "Konstanta garis saja belum cukup. Cari jarak tegak lurus dari pusat O(1,2) ke garis. Coba pilih langkah yang tepat.",
+        options: [{ text: "Gunakan rumus jarak titik ke garis.", next: "compare" }]
+      },
+      compare: {
+        prompt: "Jaraknya |3(1) + 4(2) − 26|/√(3² + 4²) = 15/5 = 3. Apa kesimpulannya?",
+        options: [
+          { text: "Menyinggung: jarak sama dengan jari-jari.", next: "success" },
+          { text: "Memotong: jarak lebih kecil dari jari-jari.", next: "retry" },
+          { text: "Di luar: jarak lebih besar dari jari-jari.", next: "retry" }
+        ]
+      },
+      success: {
+        prompt: "Keputusan tepat. Karena d = r = 3, lintasan menyinggung zona tepat di satu titik. Misi selesai!",
+        options: [{ text: "Ulangi skenario", next: "start" }]
+      },
+      retry: {
+        prompt: "Cek kembali perbandingan d dan r. Di sini keduanya sama-sama 3, sehingga hanya ada satu titik persekutuan.",
+        options: [{ text: "Coba lagi", next: "compare" }]
+      }
+    };
+    function renderScenario(nodeName) {
+      const node = scenarioNodes[nodeName];
+      scenarioBox.replaceChildren();
+      const prompt = document.createElement("p");
+      prompt.textContent = node.prompt;
+      scenarioBox.append(prompt);
+      const options = document.createElement("div");
+      options.className = "choice-row";
+      node.options.forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.textContent = option.text;
+        button.addEventListener("click", () => renderScenario(option.next));
+        options.append(button);
+      });
+      scenarioBox.append(options);
+    }
+    renderScenario("start");
+
+    const chatWindow = document.querySelector("#chat-window");
+    const chatChoices = document.querySelector("#chat-choices");
+    const chatFeedback = document.querySelector("#chat-feedback");
+    const chatTurns = [
+      {
+        prompt: "Aku dapat D < 0 setelah substitusi. Berarti garisnya memotong lingkaran, kan?",
+        options: [
+          { text: "Belum. D < 0 berarti tidak ada titik potong real; garis berada di luar lingkaran.", correct: true },
+          { text: "Ya, D < 0 berarti ada dua titik potong.", correct: false }
+        ],
+        reply: "Betul, tanda D menentukan banyaknya solusi real."
+      },
+      {
+        prompt: "Kalau D = 0, apa artinya?",
+        options: [
+          { text: "Ada satu titik persekutuan: garis menyinggung lingkaran.", correct: true },
+          { text: "Tidak ada titik persekutuan.", correct: false }
+        ],
+        reply: "Tepat! D = 0 memberi satu akar kembar dan satu titik singgung."
+      }
+    ];
+    let chatTurn = 0;
+    function renderChat() {
+      chatWindow.replaceChildren();
+      const incoming = document.createElement("div");
+      incoming.className = "chat-bubble";
+      incoming.textContent = `Teman: “${chatTurns[chatTurn].prompt}”`;
+      chatWindow.append(incoming);
+      chatChoices.replaceChildren();
+      chatTurns[chatTurn].options.forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.textContent = option.text;
+        button.addEventListener("click", () => {
+          const response = document.createElement("div");
+          response.className = "chat-bubble student";
+          response.textContent = `Kamu: “${option.text}”`;
+          chatWindow.append(response);
+          if (!option.correct) {
+            chatFeedback.textContent = "Coba lagi. Ingat hubungan tanda diskriminan dengan banyaknya akar real.";
+            chatFeedback.className = "activity-feedback bad";
+            return;
+          }
+          chatFeedback.textContent = chatTurns[chatTurn].reply;
+          chatFeedback.className = "activity-feedback good";
+          if (chatTurn < chatTurns.length - 1) {
+            chatTurn++;
+            const next = document.createElement("button");
+            next.type = "button";
+            next.className = "choice-button";
+            next.textContent = "Lanjutkan chat";
+            next.addEventListener("click", renderChat);
+            chatChoices.replaceChildren(next);
+          } else {
+            const restart = document.createElement("button");
+            restart.type = "button";
+            restart.className = "choice-button";
+            restart.textContent = "Mulai lagi";
+            restart.addEventListener("click", () => {
+              chatTurn = 0;
+              chatFeedback.textContent = "";
+              renderChat();
+            });
+            chatChoices.replaceChildren(restart);
+          }
+        }, { once: true });
+        chatChoices.append(button);
+      });
+    }
+    renderChat();
+
+    const memoryPairs = [
+      { id: "positive", face: "D > 0", match: "Dua titik potong" },
+      { id: "zero", face: "D = 0", match: "Satu titik singgung" },
+      { id: "negative", face: "D < 0", match: "Tidak ada titik potong" }
+    ];
+    let firstMemoryCard = null;
+    let memoryLocked = false;
+    let matchedPairs = 0;
+    function renderMemory() {
+      const cards = memoryPairs.flatMap((pair) => [
+        { id: pair.id, face: pair.face },
+        { id: pair.id, face: pair.match }
+      ]).sort(() => Math.random() - .5);
+      const memoryGrid = document.querySelector("#memory-grid");
+      memoryGrid.replaceChildren();
+      firstMemoryCard = null;
+      memoryLocked = false;
+      matchedPairs = 0;
+      document.querySelector("#memory-feedback").textContent = "Pasangan ditemukan: 0 dari 3.";
+      cards.forEach((card, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "memory-card";
+        button.textContent = `Kartu ${index + 1}`;
+        button.dataset.pair = card.id;
+        button.dataset.face = card.face;
+        button.dataset.cover = `Kartu ${index + 1}`;
+        button.setAttribute("aria-label", `Kartu ${index + 1}, tertutup`);
+        button.addEventListener("click", () => {
+          if (memoryLocked || button.classList.contains("matched") || button === firstMemoryCard) return;
+          button.classList.add("flipped");
+          button.textContent = button.dataset.face;
+          button.setAttribute("aria-label", button.dataset.face);
+          if (!firstMemoryCard) {
+            firstMemoryCard = button;
+            return;
+          }
+          if (firstMemoryCard.dataset.pair === button.dataset.pair) {
+            firstMemoryCard.classList.add("matched");
+            button.classList.add("matched");
+            firstMemoryCard = null;
+            matchedPairs++;
+            const message = matchedPairs === 3 ? "Semua pasangan cocok. Hebat!" : `Pasangan ditemukan: ${matchedPairs} dari 3.`;
+            document.querySelector("#memory-feedback").textContent = message;
+            document.querySelector("#memory-feedback").className = `activity-feedback ${matchedPairs === 3 ? "good" : ""}`;
+          } else {
+            memoryLocked = true;
+            const previous = firstMemoryCard;
+            window.setTimeout(() => {
+              [previous, button].forEach((item) => {
+                item.classList.remove("flipped");
+                item.textContent = item.dataset.cover;
+                item.setAttribute("aria-label", `${item.textContent}, tertutup`);
+              });
+              firstMemoryCard = null;
+              memoryLocked = false;
+            }, 700);
+          }
+        });
+        memoryGrid.append(button);
+      });
+    }
+    document.querySelector("#reset-memory").addEventListener("click", renderMemory);
+    renderMemory();
+
+    const SUPABASE_URL = "";
+    const SUPABASE_ANON_KEY = "";
+    const cloudRoom = document.querySelector("#cloud-room");
+    const cloudAnswer = document.querySelector("#cloud-answer");
+    const cloudStatus = document.querySelector("#cloud-status");
+    const cloudWords = document.querySelector("#word-cloud");
+    const cloudSubmit = document.querySelector("#cloud-submit");
+    const cloudRefresh = document.querySelector("#cloud-refresh");
+    const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+
+    function validRoomCode() {
+      const room = cloudRoom.value.trim().toLowerCase();
+      return /^[a-z0-9-]{2,24}$/.test(room) ? room : "";
+    }
+
+    function renderWordCloud(responses) {
+      const counts = new Map();
+      responses.forEach((response) => {
+        const word = String(response.answer || response).trim().toLocaleLowerCase("id");
+        if (word) counts.set(word, (counts.get(word) || 0) + 1);
+      });
+      cloudWords.replaceChildren();
+      if (!counts.size) {
+        const empty = document.createElement("span");
+        empty.className = "score";
+        empty.textContent = "Belum ada jawaban di ruang ini.";
+        cloudWords.append(empty);
+        return;
+      }
+      [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "id")).forEach(([word, count]) => {
+        const token = document.createElement("span");
+        token.className = "cloud-word";
+        token.textContent = word;
+        token.title = `${count} jawaban`;
+        token.style.fontSize = `${Math.min(38, 15 + count * 3)}px`;
+        cloudWords.append(token);
+      });
+    }
+
+    async function loadCloud() {
+      const room = validRoomCode();
+      if (!room) {
+        cloudStatus.textContent = "Kode ruang harus 2–24 huruf, angka, atau tanda hubung.";
+        return;
+      }
+      if (!hasSupabaseConfig) {
+        const local = JSON.parse(localStorage.getItem(`circle-word-cloud-v1:${room}`) || "[]");
+        renderWordCloud(local);
+        cloudStatus.textContent = "Mode demo lokal: jawaban hanya ada di browser ini.";
+        return;
+      }
+      cloudStatus.textContent = "Memuat jawaban kelas…";
+      const endpoint = `${SUPABASE_URL.replace(/\/$/, "")}/rest/v1/word_cloud_responses?select=answer&room_code=eq.${encodeURIComponent(room)}&order=created_at.desc&limit=200`;
+      try {
+        const response = await fetch(endpoint, { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } });
+        if (!response.ok) throw new Error(`Supabase menjawab ${response.status}.`);
+        renderWordCloud(await response.json());
+        cloudStatus.textContent = `Jawaban bersama dimuat · ruang ${room}.`;
+      } catch (error) {
+        cloudStatus.textContent = `Word cloud gagal dimuat: ${error.message}`;
+      }
+    }
+
+    cloudSubmit.addEventListener("click", async () => {
+      const room = validRoomCode();
+      const answer = cloudAnswer.value.trim().replace(/\s+/g, " ").toLocaleLowerCase("id");
+      if (!room) {
+        cloudStatus.textContent = "Kode ruang harus 2–24 huruf, angka, atau tanda hubung.";
+        return;
+      }
+      if (answer.length < 2 || answer.length > 40) {
+        cloudStatus.textContent = "Jawaban harus 2–40 karakter.";
+        return;
+      }
+      cloudSubmit.disabled = true;
+      try {
+        if (!hasSupabaseConfig) {
+          const key = `circle-word-cloud-v1:${room}`;
+          const local = JSON.parse(localStorage.getItem(key) || "[]");
+          local.push(answer);
+          localStorage.setItem(key, JSON.stringify(local.slice(-200)));
+          cloudAnswer.value = "";
+          await loadCloud();
+          return;
+        }
+        cloudStatus.textContent = "Mengirim jawaban…";
+        const endpoint = `${SUPABASE_URL.replace(/\/$/, "")}/rest/v1/word_cloud_responses`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+            "Content-Type": "application/json",
+            Prefer: "return=minimal"
+          },
+          body: JSON.stringify({ room_code: room, answer })
+        });
+        if (!response.ok) throw new Error(`Supabase menjawab ${response.status}.`);
+        cloudAnswer.value = "";
+        cloudStatus.textContent = "Jawaban terkirim.";
+        await loadCloud();
+      } catch (error) {
+        cloudStatus.textContent = `Jawaban gagal dikirim: ${error.message}`;
+      } finally {
+        cloudSubmit.disabled = false;
+      }
+    });
+    cloudRefresh.addEventListener("click", loadCloud);
+    loadCloud();
+
+    const crosswordWords = [
+      { word: "LINGKARAN", row: 0, col: 4, direction: "down", clue: "Bangun yang memiliki pusat dan jari-jari." },
+      { word: "GARIS", row: 1, col: 1, direction: "across", clue: "Objek lurus yang dapat memotong lingkaran." },
+      { word: "JARAK", row: 2, col: 8, direction: "down", clue: "Panjang tegak lurus antara pusat dan garis." },
+      { word: "DIAMETER", row: 3, col: 6, direction: "across", clue: "Tali busur yang melalui pusat lingkaran." },
+      { word: "JARIJARI", row: 5, col: 3, direction: "across", clue: "Jarak dari pusat ke tepi lingkaran." }
+    ];
+    const crosswordRows = 9;
+    const crosswordColumns = 14;
+    const crosswordCells = new Map();
+
+    function renderCrossword() {
+      const crosswordGrid = document.querySelector("#crossword-grid");
+      crosswordGrid.style.gridTemplateColumns = `repeat(${crosswordColumns}, 32px)`;
+      crosswordGrid.replaceChildren();
+      crosswordCells.clear();
+      crosswordWords.forEach((entry) => {
+        [...entry.word].forEach((letter, index) => {
+          const row = entry.row + (entry.direction === "down" ? index : 0);
+          const col = entry.col + (entry.direction === "across" ? index : 0);
+          const key = `${row}-${col}`;
+          if (!crosswordCells.has(key)) crosswordCells.set(key, { letter, entries: [] });
+          const cell = crosswordCells.get(key);
+          if (cell.letter !== letter) throw new Error(`Teka-teki silang memiliki huruf silang yang tidak cocok di ${key}.`);
+          cell.entries.push(entry);
+        });
+      });
+      for (let row = 0; row < crosswordRows; row++) {
+        for (let col = 0; col < crosswordColumns; col++) {
+          const cellData = crosswordCells.get(`${row}-${col}`);
+          const cell = document.createElement("div");
+          cell.className = `crossword-cell${cellData ? "" : " block"}`;
+          if (cellData) {
+            const input = document.createElement("input");
+            input.maxLength = 1;
+            input.autocomplete = "off";
+            input.dataset.row = String(row);
+            input.dataset.col = String(col);
+            input.setAttribute("aria-label", `Kotak baris ${row + 1}, kolom ${col + 1}`);
+            input.addEventListener("input", () => {
+              input.value = input.value.replace(/[^a-z]/gi, "").slice(-1).toLocaleUpperCase("id");
+              input.classList.remove("correct", "incorrect");
+            });
+            cell.append(input);
+          }
+          crosswordGrid.append(cell);
+        }
+      }
+      crosswordWords.forEach((entry, index) => {
+        const list = document.querySelector(entry.direction === "across" ? "#crossword-across" : "#crossword-down");
+        const clue = document.createElement("li");
+        clue.textContent = `${index + 1}. ${entry.clue}`;
+        clue.addEventListener("click", () => {
+          const first = document.querySelector(`#crossword-grid input[data-row="${entry.row}"][data-col="${entry.col}"]`);
+          first?.focus();
+        });
+        list.append(clue);
+      });
+    }
+
+    document.querySelector("#check-crossword").addEventListener("click", () => {
+      let correctCells = 0;
+      crosswordCells.forEach((cell, key) => {
+        const [row, col] = key.split("-");
+        const input = document.querySelector(`#crossword-grid input[data-row="${row}"][data-col="${col}"]`);
+        const correct = input.value.toLocaleUpperCase("id") === cell.letter;
+        input.classList.toggle("correct", correct);
+        input.classList.toggle("incorrect", !correct);
+        if (correct) correctCells++;
+      });
+      const feedback = document.querySelector("#crossword-feedback");
+      feedback.textContent = correctCells === crosswordCells.size
+        ? "Semua huruf benar. Teka-teki selesai!"
+        : `${correctCells} dari ${crosswordCells.size} kotak benar. Petunjuk yang dipilih akan memfokuskan huruf awal jawabannya.`;
+      feedback.className = `activity-feedback ${correctCells === crosswordCells.size ? "good" : "bad"}`;
+    });
+    renderCrossword();
+  </script>
+</body>
+</html>
